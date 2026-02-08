@@ -1,28 +1,36 @@
+# SOC Incident Report: Attempted Lateral Movement (Blocked)
 
-Paste:
-
-```markdown
-# Attempted Lateral Movement Using Remote Logon (Contained)
-
-## Case Information
-- Case ID: ra639058096351022135_-847381402
-- Date Opened: February 4, 2026
-- Severity: Medium
-- Status: Closed – Contained
-- Affected Host: MTS-ContractorPC1
+## Case Overview
+- **Case ID:** ra639058096351022135_-847381402  
+- **Incident Title:** Attempted Lateral Movement Using Remote Logon (Contained)  
+- **Date:** February 4, 2026  
+- **Severity:** Medium  
+- **Status:** Closed – Contained  
+- **Affected Host:** MTS-ContractorPC1  
 
 ---
 
 ## Executive Summary
-Microsoft Defender detected and blocked multiple remote authentication attempts targeting the Administrator account.
+On February 4, 2026, Microsoft Defender for Endpoint detected and blocked multiple remote authentication attempts targeting the **Administrator account** on a Windows endpoint.
 
-The activity originated from external IP addresses:
-- 109.205.211.14
-- 185.214.96.27
+The activity originated from external IP addresses and displayed patterns consistent with:
 
-Behavior matched credential stuffing and attempted lateral movement.
+- Credential stuffing
+- Password spraying
+- Attempted lateral movement
 
-Security controls blocked the activity before compromise.
+Endpoint security controls successfully blocked the attempts, preventing account compromise or lateral spread.
+
+---
+
+## Incident Scope
+| Category | Details |
+|---------|--------|
+| Affected Device | MTS-ContractorPC1 |
+| Targeted Account | Administrator |
+| Source IPs | 109.205.211.14, 185.214.96.27 |
+| Protocol | NTLM |
+| Network Type | External |
 
 ---
 
@@ -33,54 +41,21 @@ Security controls blocked the activity before compromise.
 | 13:31–13:40 | Multiple NTLM authentication attempts blocked |
 | 13:37 | Silent deletion of OneDriveSetup.exe via cmd.exe |
 | 13:40–16:24 | ContainedUserLogonBlocked events recorded |
-| Post activity | No successful logon detected |
+| Post-activity | No successful logon or lateral movement observed |
 
 ---
 
 ## Technical Analysis
 
-### Authentication
-- Repeated NTLM authentication attempts
-- Targeted privileged account
-- Activity blocked before session creation
+### Authentication Findings
+- Repeated NTLM logon attempts against privileged account.
+- Activity originated from external IP addresses.
+- Defender blocked access before session establishment.
 
 ### Process Activity
-Observed processes:
-- cmd.exe
-- rundll32.exe
+Suspicious processes observed:
+- `cmd.exe` – used for silent file deletion.
+- `rundll32.exe` – mostly normal Windows activity.
 
-cmd.exe was used to silently delete files in AppData.
-
----
-
-## MITRE ATT&CK Mapping
-
-| Technique | Description |
-|----------|-------------|
-| T1021 | Remote Services |
-| T1110 | Brute Force |
-| T1078 | Valid Accounts |
-| T1070.004 | Indicator Removal |
-
----
-
-## Impact
-- No successful authentication
-- No lateral movement
-- No persistence mechanisms
-- Attempt contained
-
----
-
-## Response Actions
-- Blocked IP addresses
-- Reviewed administrator activity
-- Executed threat hunting queries
-
----
-
-## Recommendations
-- Enforce MFA
-- Restrict NTLM authentication
-- Limit administrator account usage
-- Monitor AppData changes
+### File System Activity
+- Silent deletion of:
