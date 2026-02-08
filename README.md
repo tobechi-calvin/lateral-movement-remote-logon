@@ -59,3 +59,61 @@ Suspicious processes observed:
 
 ### File System Activity
 - Silent deletion of:
+
+- - Located in user AppData directory.
+- Likely artifact cleanup behavior.
+
+---
+
+## MITRE ATT&CK Mapping
+
+| Technique | Description |
+|----------|-------------|
+| T1021 | Remote Services (Attempted) |
+| T1110 | Brute Force / Password Spraying |
+| T1078 | Valid Accounts (Attempted) |
+| T1070.004 | Indicator Removal on Host |
+
+---
+
+## Impact Assessment
+- No successful authentication.
+- No lateral movement.
+- No persistence detected.
+- Attack contained at initial access phase.
+
+---
+
+## Response Actions
+- Remote logon attempts blocked by endpoint controls.
+- Malicious IP addresses flagged.
+- Administrator account activity reviewed.
+- Threat hunting conducted for lateral movement indicators.
+
+---
+
+## Security Recommendations
+1. Enforce MFA for privileged accounts.
+2. Restrict NTLM authentication.
+3. Limit local administrator usage.
+4. Monitor for repeat activity.
+5. Audit AppData and OneDrive modifications.
+
+---
+
+## Tools Used
+- Microsoft Defender for Endpoint
+- KQL (Microsoft Sentinel)
+- Windows Event Logs
+
+---
+
+## Skills Demonstrated
+- Incident triage
+- Log analysis
+- Threat hunting
+- MITRE ATT&CK mapping
+- Endpoint investigation
+- Report writing
+
+
